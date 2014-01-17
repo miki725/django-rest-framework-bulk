@@ -1,0 +1,16 @@
+*.orig
+*.pyc
+*~
+
+*.sqlite
+
+dist/
+_build/
+.idea
+.coverage
+.tox
+
+*.egg-info
+
+*zip
+*tar.gz
