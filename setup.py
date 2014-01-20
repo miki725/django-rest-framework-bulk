@@ -28,7 +28,11 @@ def get_package_data(package):
     for base, filenames in walk:
         filepaths.extend([os.path.join(base, filename)
                           for filename in filenames])
-    return {package: filepaths}
+
+    if filepaths:
+        return {package: filepaths}
+    else:
+        return None
 
 
 def read(fname):
