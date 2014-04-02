@@ -135,5 +135,5 @@ Credits
 
 Current maintainers:
 
-* Miroslav Shubernetskiy - miroslav@miki725.com
+* Miroslav Shubernetskiy - `GitHub <https://github.com/miki725>`_.
 
