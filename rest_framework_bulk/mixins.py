@@ -50,7 +50,7 @@ class BulkUpdateModelMixin(object):
 
         if serializer.is_valid():
             try:
-                self.pre_save(serializer.object)
+                [self.pre_save(obj) for obj in serializer.object]
             except ValidationError as err:
                 # full_clean on model instances may be called in pre_save
                 # so we have to handle eventual errors.
