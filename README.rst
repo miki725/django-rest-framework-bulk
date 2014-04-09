@@ -133,7 +133,8 @@ can be dangerous.
 Credits
 -------
 
-Current maintainers:
+Maintainers/contributors:
 
 * Miroslav Shubernetskiy - `GitHub <https://github.com/miki725>`_.
+* Arien Tolner - `GitHub <https://github.com/Bounder>`_.
 
