@@ -4,6 +4,11 @@ from rest_framework.generics import GenericAPIView
 from . import mixins as bulk_mixins
 
 
+__all__ = ["BulkCreateAPIView", "BulkUpdateAPIView", "BulkDestroyAPIView", "ListBulkCreateAPIView",
+           "ListCreateBulkUpdateAPIView", "ListCreateBulkUpdateDestroyAPIView", "ListBulkCreateUpdateAPIView",
+           "ListBulkCreateUpdateDestroyAPIView"]
+
+
 ##########################################################
 ### Concrete view classes that provide method handlers ###
 ### by composing the mixin classes with the base view. ###
