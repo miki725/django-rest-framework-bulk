@@ -135,8 +135,8 @@ Credits
 
 Maintainers/contributors:
 
-* Miroslav Shubernetskiy - `GitHub <https://github.com/miki725>`_
-* Arien Tolner - `GitHub <https://github.com/Bounder>`_
-* Kevin Brown - `GitHub <https://github.com/kevin-brown>`_
-* Martin Cavoj - `GitHub <https://github.com/macav>`_
+* Miroslav Shubernetskiy - https://github.com/miki725
+* Arien Tolner - https://github.com/Bounder
+* Kevin Brown - https://github.com/kevin-brown
+* Martin Cavoj - https://github.com/macav
 
