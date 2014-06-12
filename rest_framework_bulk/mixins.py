@@ -30,7 +30,7 @@ class BulkCreateModelMixin(CreateModelMixin):
             if serializer.is_valid():
                 [self.pre_save(obj) for obj in serializer.object]
                 self.object = serializer.save(force_insert=True)
-                [self.post_save(obj) for obj in self.object]
+                [self.post_save(obj, created=True) for obj in self.object]
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

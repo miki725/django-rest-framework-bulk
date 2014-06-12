@@ -138,3 +138,4 @@ Maintainers/contributors:
 * Miroslav Shubernetskiy - `GitHub <https://github.com/miki725>`_
 * Arien Tolner - `GitHub <https://github.com/Bounder>`_
 * Kevin Brown - `GitHub <https://github.com/kevin-brown>`_
+* Martin Cavoj - `GitHub <https://github.com/macav>`_
