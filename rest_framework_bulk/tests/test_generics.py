@@ -3,7 +3,7 @@ from django.test.client import RequestFactory
 from simple_app.views import SimpleBulkUpdateAPIView
 
 
-class TestBulkUpdateAPIView (TestCase):
+class TestBulkUpdateAPIView(TestCase):
     def test_OPTIONS_request(self):
         """
         OPTIONS requests must work for CORS requests. Test that OPTIONS
