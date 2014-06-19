@@ -12,6 +12,7 @@ DATABASES = {
 INSTALLED_APPS = (
     'django_nose',
     'rest_framework_bulk',
+    'simple_app',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
