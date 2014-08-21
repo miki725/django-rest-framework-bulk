@@ -83,6 +83,39 @@ The above will allow to create the following queries
     # delete queryset (see notes)
     DELETE
 
+Router
+-------
+
+It's also pretty easy to define a router that handle the bulk operation ::
+
+
+	class BulkRouter(DefaultRouter):
+	    routes = SimpleRouter.routes
+	    routes[0] = Route(
+	        url=r'^{prefix}{trailing_slash}$',
+	        mapping={
+	            'get': 'list',
+	            'post': 'create',
+	            'put': 'bulk_update',
+	            'patch': 'partial_bulk_update',
+	            'delete': 'bulk_destroy'
+	        },
+	        name='{basename}-list',
+	        initkwargs={'suffix': 'List'}
+	    )
+	
+	class UserViewSet(BulkCreateModelMixin
+	                  BulkUpdateModelMixin,
+	                  BulkDestroyModelMixin,
+	                  viewsets.ModelViewSet):
+	    model = User
+	    
+	    def allow_bulk_destroy(self, qs, filtered):
+	        """Don't forget to fine-grain this method"""
+	
+	router = BulkRouter()
+	router.register(r'users', UserViewSet)
+
 Notes
 -----
 
