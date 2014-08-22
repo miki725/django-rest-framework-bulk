@@ -84,26 +84,18 @@ The above will allow to create the following queries
     DELETE
 
 Router
--------
+------
 
 It's also pretty easy to define a router that handle the bulk operation ::
 
-
 	class BulkRouter(DefaultRouter):
-	    routes = SimpleRouter.routes
-	    routes[0] = Route(
-	        url=r'^{prefix}{trailing_slash}$',
-	        mapping={
-	            'get': 'list',
-	            'post': 'create',
-	            'put': 'bulk_update',
-	            'patch': 'partial_bulk_update',
-	            'delete': 'bulk_destroy'
-	        },
-	        name='{basename}-list',
-	        initkwargs={'suffix': 'List'}
-	    )
-	
+	    routes = copy.deepcopy(SimpleRouter.routes)
+	    routes[0].mapping.update({
+    		'put': 'bulk_update',
+    		'patch': 'partial_bulk_update',
+    		'delete': 'bulk_destroy',
+		})
+		
 	class UserViewSet(BulkCreateModelMixin
 	                  BulkUpdateModelMixin,
 	                  BulkDestroyModelMixin,
@@ -173,4 +165,5 @@ Maintainers/contributors:
 * Kevin Brown - https://github.com/kevin-brown
 * Martin Cavoj - https://github.com/macav
 * Mjumbe Poe - https://github.com/mjumbewu
+* Thomas Wajs - https://github.com/thomasWajs
 
