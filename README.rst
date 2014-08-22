@@ -86,15 +86,9 @@ The above will allow to create the following queries
 Router
 ------
 
-It's also pretty easy to define a router that handle the bulk operation ::
+The bulk router can map automatically the bulk actions ::
 
-	class BulkRouter(DefaultRouter):
-	    routes = copy.deepcopy(SimpleRouter.routes)
-	    routes[0].mapping.update({
-    		'put': 'bulk_update',
-    		'patch': 'partial_bulk_update',
-    		'delete': 'bulk_destroy',
-		})
+	from rest_framework_bulk.routes import BulkRouter
 		
 	class UserViewSet(BulkCreateModelMixin
 	                  BulkUpdateModelMixin,
