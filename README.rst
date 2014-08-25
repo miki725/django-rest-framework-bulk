@@ -83,6 +83,25 @@ The above will allow to create the following queries
     # delete queryset (see notes)
     DELETE
 
+Router
+------
+
+The bulk router can map automatically the bulk actions ::
+
+	from rest_framework_bulk.routes import BulkRouter
+		
+	class UserViewSet(BulkCreateModelMixin
+	                  BulkUpdateModelMixin,
+	                  BulkDestroyModelMixin,
+	                  viewsets.ModelViewSet):
+	    model = User
+	    
+	    def allow_bulk_destroy(self, qs, filtered):
+	        """Don't forget to fine-grain this method"""
+	
+	router = BulkRouter()
+	router.register(r'users', UserViewSet)
+
 Notes
 -----
 
@@ -140,4 +159,5 @@ Maintainers/contributors:
 * Kevin Brown - https://github.com/kevin-brown
 * Martin Cavoj - https://github.com/macav
 * Mjumbe Poe - https://github.com/mjumbewu
+* Thomas Wajs - https://github.com/thomasWajs
 
