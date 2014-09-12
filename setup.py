@@ -36,7 +36,7 @@ def get_package_data(package):
     if filepaths:
         return {package: filepaths}
     else:
-        return None
+        return {}
 
 
 def read(fname):
