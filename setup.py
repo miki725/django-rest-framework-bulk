@@ -50,7 +50,7 @@ setup(
     license='MIT',
     keywords='django',
     packages=get_packages('rest_framework_bulk'),
-    data_files=get_package_data('rest_framework_bulk'),
+    package_data=get_package_data('rest_framework_bulk'),
     install_requires=[
         'django',
         'djangorestframework',
