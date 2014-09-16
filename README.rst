@@ -160,4 +160,5 @@ Maintainers/contributors:
 * Martin Cavoj - https://github.com/macav
 * Mjumbe Poe - https://github.com/mjumbewu
 * Thomas Wajs - https://github.com/thomasWajs
+* Xavier Ordoquy - https://github.com/xordoquy
 
