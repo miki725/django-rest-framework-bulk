@@ -20,9 +20,13 @@ def get_package_data(package):
     Return all files under the root package, that are not in a
     package themselves.
     """
+    def is_python_dir(dirpath):
+        return (os.path.exists(os.path.join(dirpath, '__init__.py')) or
+                '__pycache__' in dirpath)
+
     walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
             for dirpath, dirnames, filenames in os.walk(package)
-            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
+            if not is_python_dir(dirpath)]
 
     filepaths = []
     for base, filenames in walk:
@@ -32,7 +36,7 @@ def get_package_data(package):
     if filepaths:
         return {package: filepaths}
     else:
-        return None
+        return {}
 
 
 def read(fname):
@@ -50,7 +54,7 @@ setup(
     license='MIT',
     keywords='django',
     packages=get_packages('rest_framework_bulk'),
-    data_files=get_package_data('rest_framework_bulk'),
+    package_data=get_package_data('rest_framework_bulk'),
     install_requires=[
         'django',
         'djangorestframework',
