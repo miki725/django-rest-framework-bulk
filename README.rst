@@ -35,7 +35,7 @@ Using pip::
 
 or from source code::
 
-    $ pip install -r git+http://github.com/miki725/django-rest-framework-bulk#egg=djangorestframework-bulk
+    $ pip install -e git+http://github.com/miki725/django-rest-framework-bulk#egg=djangorestframework-bulk
 
 Example
 -------
