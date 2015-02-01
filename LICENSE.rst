@@ -1,9 +1,11 @@
 License
 -------
 
-The source code can be found at `Github <https://github.com/miki725/django-rest-framework-bulk>`_.
+Source code can be found at `Github <https://github.com/miki725/django-rest-framework-bulk>`_.
 
-This library is licensed with `MIT License <http://opensource.org/licenses/MIT>`_::
+`The MIT License (MIT) <http://opensource.org/licenses/MIT>`_::
+
+    Copyright (c) 2014-2015, Miroslav Shubernetskiy
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

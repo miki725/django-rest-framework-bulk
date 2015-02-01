@@ -1,18 +1,28 @@
 from __future__ import unicode_literals, print_function
 from rest_framework import mixins
 from rest_framework.generics import GenericAPIView
+from rest_framework.viewsets import ModelViewSet
+
 from . import mixins as bulk_mixins
 
 
-__all__ = ["BulkCreateAPIView", "BulkUpdateAPIView", "BulkDestroyAPIView", "ListBulkCreateAPIView",
-           "ListCreateBulkUpdateAPIView", "ListCreateBulkUpdateDestroyAPIView", "ListBulkCreateUpdateAPIView",
-           "ListBulkCreateUpdateDestroyAPIView"]
+__all__ = [
+    'BulkCreateAPIView',
+    'BulkDestroyAPIView',
+    'BulkModelViewSet',
+    'BulkUpdateAPIView',
+    'ListBulkCreateAPIView',
+    'ListBulkCreateUpdateAPIView',
+    'ListBulkCreateUpdateDestroyAPIView',
+    'ListCreateBulkUpdateAPIView',
+    'ListCreateBulkUpdateDestroyAPIView',
+]
 
 
-##########################################################
-### Concrete view classes that provide method handlers ###
-### by composing the mixin classes with the base view. ###
-##########################################################
+# ################################################## #
+# Concrete view classes that provide method handlers #
+# by composing the mixin classes with the base view. #
+# ################################################## #
 
 class BulkCreateAPIView(bulk_mixins.BulkCreateModelMixin,
                         GenericAPIView):
@@ -119,3 +129,15 @@ class ListBulkCreateUpdateDestroyAPIView(mixins.ListModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.bulk_destroy(request, *args, **kwargs)
+
+
+# ########################################################## #
+# Concrete viewset classes that provide method handlers      #
+# by composing the bulk mixin classes with the base viewset. #
+# ########################################################## #
+
+class BulkModelViewSet(bulk_mixins.BulkCreateModelMixin,
+                       bulk_mixins.BulkUpdateModelMixin,
+                       bulk_mixins.BulkDestroyModelMixin,
+                       ModelViewSet):
+    pass

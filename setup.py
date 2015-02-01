@@ -1,47 +1,30 @@
-"""
-Based on Django REST Framework's ``setup.py``.
-"""
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import os
-from setuptools import setup
+from setuptools import find_packages, setup
+
 from rest_framework_bulk import __version__, __author__
 
 
-def get_packages(package):
-    """
-    Return root package and all sub-packages.
-    """
-    return [dirpath
-            for dirpath, dirnames, filenames in os.walk(package)
-            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-
-def get_package_data(package):
-    """
-    Return all files under the root package, that are not in a
-    package themselves.
-    """
-    def is_python_dir(dirpath):
-        return (os.path.exists(os.path.join(dirpath, '__init__.py')) or
-                '__pycache__' in dirpath)
-
-    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
-            for dirpath, dirnames, filenames in os.walk(package)
-            if not is_python_dir(dirpath)]
-
-    filepaths = []
-    for base, filenames in walk:
-        filepaths.extend([os.path.join(base, filename)
-                          for filename in filenames])
-
-    if filepaths:
-        return {package: filepaths}
-    else:
-        return {}
-
-
 def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    return (open(os.path.join(os.path.dirname(__file__), fname), 'rb')
+            .read().decode('utf-8'))
 
+
+authors = read('AUTHORS.rst')
+history = read('HISTORY.rst').replace('.. :changelog:', '')
+licence = read('LICENSE.rst')
+readme = read('README.rst')
+
+requirements = read('requirements.txt').splitlines() + [
+    'setuptools',
+]
+
+test_requirements = (
+    read('requirements.txt').splitlines()
+    + read('requirements-dev.txt').splitlines()[1:]
+)
 
 setup(
     name='djangorestframework-bulk',
@@ -49,16 +32,13 @@ setup(
     author=__author__,
     author_email='miroslav@miki725.com',
     description='Django REST Framework bulk CRUD view mixins',
-    long_description=read('README.rst') + read('LICENSE.rst'),
+    long_description='\n\n'.join([readme, history, authors, licence]),
     url='https://github.com/miki725/django-rest-framework-bulk',
     license='MIT',
     keywords='django',
-    packages=get_packages('rest_framework_bulk'),
-    package_data=get_package_data('rest_framework_bulk'),
-    install_requires=[
-        'django',
-        'djangorestframework',
-    ],
+    packages=find_packages(),
+    install_requires=requirements,
+    tests_require=test_requirements,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django',

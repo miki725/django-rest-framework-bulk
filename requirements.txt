@@ -1,6 +1,2 @@
-coverage
 django
-django-nose
-djangorestframework
-mock
-tox
+djangorestframework<3

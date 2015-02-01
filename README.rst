@@ -4,10 +4,6 @@ Django REST Framework Bulk
 .. image:: https://badge.fury.io/py/djangorestframework-bulk.png
    :target: http://badge.fury.io/py/djangorestframework-bulk
 
-.. image:: https://d2weczhvl823v0.cloudfront.net/miki725/django-rest-framework-bulk/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
-
 Django REST Framework bulk CRUD view mixins.
 
 Overview
@@ -24,7 +20,7 @@ Requirements
 
 * Python (2.6, 2.7 and 3.3)
 * Django 1.3+
-* Django REST Framework >= 2.2.5 (when bulk features were added to serializers)
+* Django REST Framework >= 2.2.5 (when bulk features were added to serializers), < 3.0
 
 Installing
 ----------
@@ -86,21 +82,18 @@ The above will allow to create the following queries
 Router
 ------
 
-The bulk router can map automatically the bulk actions ::
+The bulk router can map automatically the bulk actions::
 
-	from rest_framework_bulk.routes import BulkRouter
-		
-	class UserViewSet(BulkCreateModelMixin
-	                  BulkUpdateModelMixin,
-	                  BulkDestroyModelMixin,
-	                  viewsets.ModelViewSet):
-	    model = User
-	    
-	    def allow_bulk_destroy(self, qs, filtered):
-	        """Don't forget to fine-grain this method"""
-	
-	router = BulkRouter()
-	router.register(r'users', UserViewSet)
+    from rest_framework_bulk.routes import BulkRouter
+
+    class UserViewSet(BulkModelViewSet):
+        model = User
+
+        def allow_bulk_destroy(self, qs, filtered):
+            """Don't forget to fine-grain this method"""
+
+    router = BulkRouter()
+    router.register(r'users', UserViewSet)
 
 Notes
 -----
@@ -122,10 +115,10 @@ take a look at the source code at ``generics.py`` as it is mostly
 self-explanatory.
 
 Most bulk operations are pretty safe in terms of how they operate,
-that is you excplicitly describe all requests. For example, if you
+that is you explicitly describe all requests. For example, if you
 need to update 3 specific resources, you have to explicitly identify
 those resources in the request's ``PUT`` or ``PATCH`` data.
-The only exception to this is bulk delete. Conside a ``DELETE``
+The only exception to this is bulk delete. Consider a ``DELETE``
 request to the first url. That can potentially delete all resources
 without any special confirmation. To try to account for this, bulk delete
 mixin allows to implement a hook to determine if the bulk delete
@@ -146,19 +139,5 @@ is filtered to only get certain resources, more attention was payed hence
 the action is less likely to be accidental. On how to filter requests,
 please refer to Django REST
 `docs <http://www.django-rest-framework.org/api-guide/filtering>`_.
-Either way, please use bulk deletes with extreme causion since they
+Either way, please use bulk deletes with extreme caution since they
 can be dangerous.
-
-Credits
--------
-
-Maintainers/contributors:
-
-* Miroslav Shubernetskiy - https://github.com/miki725
-* Arien Tolner - https://github.com/Bounder
-* Kevin Brown - https://github.com/kevin-brown
-* Martin Cavoj - https://github.com/macav
-* Mjumbe Poe - https://github.com/mjumbewu
-* Thomas Wajs - https://github.com/thomasWajs
-* Xavier Ordoquy - https://github.com/xordoquy
-
