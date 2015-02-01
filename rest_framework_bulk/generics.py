@@ -119,3 +119,17 @@ class ListBulkCreateUpdateDestroyAPIView(mixins.ListModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.bulk_destroy(request, *args, **kwargs)
+
+
+class ListBulkCreateDestroyAPIView(mixins.ListModelMixin,
+                                   bulk_mixins.BulkCreateModelMixin,
+                                   bulk_mixins.BulkDestroyModelMixin,
+                                   GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.bulk_destroy(request, *args, **kwargs)
