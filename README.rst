@@ -21,9 +21,9 @@ within the framework. That is the purpose of this project.
 Requirements
 ------------
 
-* Python (2.6, 2.7 and 3.3)
+* Python 2.7+
 * Django 1.3+
-* Django REST Framework >= 2.2.5 (when bulk features were added to serializers), < 3.0
+* Django REST Framework >= 2.2.5 (when bulk features were added to serializers)
 
 Installing
 ----------
