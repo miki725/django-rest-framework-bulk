@@ -13,3 +13,10 @@ class FilteredBulkAPIView(generics.ListBulkCreateUpdateDestroyAPIView):
 
     def filter_queryset(self, queryset):
         return queryset.filter(number__gt=5)
+
+
+class SimpleViewSet(generics.BulkModelViewSet):
+    model = models.SimpleModel
+
+    def filter_queryset(self, queryset):
+        return queryset.filter(number__gt=5)

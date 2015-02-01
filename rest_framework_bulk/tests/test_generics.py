@@ -1,5 +1,6 @@
 from __future__ import unicode_literals, print_function
 import json
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import RequestFactory
 from rest_framework import status
@@ -139,3 +140,119 @@ class TestBulkAPIView(TestCase):
         response = self.view(self.request.options(''))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class TestBulkAPIViewSet(TestCase):
+    """
+    Integration class testing that viewset requests are correctly
+    routed via bulk router and that expected status code is returned.
+    """
+
+    def setUp(self):
+        super(TestBulkAPIViewSet, self).setUp()
+        self.url = reverse('api:simple-list')
+
+    def test_get(self):
+        """
+        Test that GET returns 200
+        """
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_post_single(self):
+        """
+        Test that POST with single resource returns 201
+        """
+        response = self.client.post(
+            self.url,
+            data=json.dumps({
+                'contents': 'hello world',
+                'number': 1,
+            }),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_post_bulk(self):
+        """
+        Test that POST with multiple resources returns 201
+        """
+        response = self.client.post(
+            self.url,
+            data=json.dumps([
+                {
+                    'contents': 'hello world',
+                    'number': 1,
+                },
+                {
+                    'contents': 'hello mars',
+                    'number': 2,
+                },
+            ]),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_put(self):
+        """
+        Test that PUT with multiple resources returns 200
+        """
+        obj1 = SimpleModel.objects.create(contents='hello world', number=7)
+        obj2 = SimpleModel.objects.create(contents='hello mars', number=10)
+
+        response = self.client.put(
+            self.url,
+            data=json.dumps([
+                {
+                    'contents': 'foo',
+                    'number': 1,
+                    'id': obj1.pk,
+                },
+                {
+                    'contents': 'bar',
+                    'number': 2,
+                    'id': obj2.pk,
+                },
+            ]),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_patch(self):
+        """
+        Test that PATCH with multiple partial resources returns 200
+        """
+        obj1 = SimpleModel.objects.create(contents='hello world', number=7)
+        obj2 = SimpleModel.objects.create(contents='hello mars', number=10)
+
+        response = self.client.patch(
+            self.url,
+            data=json.dumps([
+                {
+                    'contents': 'foo',
+                    'id': obj1.pk,
+                },
+                {
+                    'contents': 'bar',
+                    'id': obj2.pk,
+                },
+            ]),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete(self):
+        """
+        Test that PATCH with multiple partial resources returns 200
+        """
+        SimpleModel.objects.create(contents='hello world', number=7)
+        SimpleModel.objects.create(contents='hello mars', number=10)
+
+        response = self.client.delete(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
