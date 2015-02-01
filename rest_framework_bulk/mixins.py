@@ -5,7 +5,11 @@ from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 
 
-__all__ = ["BulkCreateModelMixin", "BulkUpdateModelMixin", "BulkDestroyModelMixin"]
+__all__ = [
+    'BulkCreateModelMixin',
+    'BulkDestroyModelMixin',
+    'BulkUpdateModelMixin',
+]
 
 
 class BulkCreateModelMixin(CreateModelMixin):

@@ -5,23 +5,23 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'rest_framework_bulk.sqlite'
+        'NAME': 'rest_framework_bulk.sqlite',
     }
 }
 
+MIDDLEWARE_CLASSES = ()
+
 INSTALLED_APPS = (
+    'django.contrib.staticfiles',
     'django_nose',
+    'rest_framework',
     'rest_framework_bulk',
-    'simple_app',
+    'rest_framework_bulk.tests.simple_app',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-NOSE_ARGS = (
-    '--all-modules',
-    '--with-doctest',
-    '--with-coverage',
-    '--cover-package=rest_framework_bulk',
-)
 
 STATIC_URL = '/static/'
 SECRET_KEY = 'foo'
+
+ROOT_URLCONF = 'rest_framework_bulk.tests.simple_app.urls'

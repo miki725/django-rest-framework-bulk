@@ -3,7 +3,9 @@ import copy
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 
-__all__ = ["BulkRouter"]
+__all__ = [
+    'BulkRouter',
+]
 
 
 class BulkRouter(DefaultRouter):
