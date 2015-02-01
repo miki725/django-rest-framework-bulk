@@ -2,7 +2,10 @@ Django REST Framework Bulk
 ==========================
 
 .. image:: https://badge.fury.io/py/djangorestframework-bulk.png
-   :target: http://badge.fury.io/py/djangorestframework-bulk
+    :target: http://badge.fury.io/py/djangorestframework-bulk
+
+.. image:: https://travis-ci.org/miki725/django-rest-framework-bulk.svg?branch=master
+    :target: https://travis-ci.org/miki725/django-rest-framework-bulk
 
 Django REST Framework bulk CRUD view mixins.
 
