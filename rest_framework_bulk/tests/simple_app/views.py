@@ -1,22 +1,25 @@
 from __future__ import unicode_literals, print_function
 from rest_framework_bulk import generics
 
-from . import models
+from .models import SimpleModel
+from .serializers import SimpleSerializer
 
 
-class SimpleBulkAPIView(generics.ListBulkCreateUpdateDestroyAPIView):
-    model = models.SimpleModel
+class SimpleMixin(object):
+    model = SimpleModel
+    queryset = SimpleModel.objects.all()
+    serializer_class = SimpleSerializer
 
 
-class FilteredBulkAPIView(generics.ListBulkCreateUpdateDestroyAPIView):
-    model = models.SimpleModel
+class SimpleBulkAPIView(SimpleMixin, generics.ListBulkCreateUpdateDestroyAPIView):
+    pass
 
+
+class FilteredBulkAPIView(SimpleMixin, generics.ListBulkCreateUpdateDestroyAPIView):
     def filter_queryset(self, queryset):
         return queryset.filter(number__gt=5)
 
 
-class SimpleViewSet(generics.BulkModelViewSet):
-    model = models.SimpleModel
-
+class SimpleViewSet(SimpleMixin, generics.BulkModelViewSet):
     def filter_queryset(self, queryset):
         return queryset.filter(number__gt=5)

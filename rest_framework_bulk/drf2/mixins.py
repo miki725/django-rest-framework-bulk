@@ -1,5 +1,6 @@
 from __future__ import unicode_literals, print_function
-from django.core.exceptions import ValidationError
+import traceback
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from rest_framework import status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
@@ -32,9 +33,11 @@ class BulkCreateModelMixin(CreateModelMixin):
         else:
             serializer = self.get_serializer(data=request.DATA, many=True)
             if serializer.is_valid():
-                [self.pre_save(obj) for obj in serializer.object]
+                for obj in serializer.object:
+                    self.pre_save(obj)
                 self.object = serializer.save(force_insert=True)
-                [self.post_save(obj, created=True) for obj in self.object]
+                for obj in self.object:
+                    self.post_save(obj, created=True)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -47,7 +50,23 @@ class BulkUpdateModelMixin(object):
     """
 
     def get_object(self):
-        return self.get_queryset()
+        try:
+            super(BulkUpdateModelMixin, self).get_object()
+        except ImproperlyConfigured:
+            # probably happened when called get_object() within metdata()
+            # which is not allowed on list viewset however since we are enabling
+            # PUT here, we should handle the exception
+            # if called within metadata(), we can simply swallow exception
+            # since that method does not actually do anything
+            # with the returned object
+            for file, line, function, code in traceback.extract_stack():
+                if all((file.endswith('rest_framework/generics.py'),
+                        function == 'metadata')):
+                    return
+
+            # not called inside metadata() so probably something went
+            # wrong and so we should reraise exception
+            raise
 
     def bulk_update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
@@ -60,13 +79,15 @@ class BulkUpdateModelMixin(object):
 
         if serializer.is_valid():
             try:
-                [self.pre_save(obj) for obj in serializer.object]
+                for obj in serializer.object:
+                    self.pre_save(obj)
             except ValidationError as err:
                 # full_clean on model instances may be called in pre_save
                 # so we have to handle eventual errors.
                 return Response(err.message_dict, status=status.HTTP_400_BAD_REQUEST)
             self.object = serializer.save(force_update=True)
-            [self.post_save(obj, created=False) for obj in self.object]
+            for obj in self.object:
+                self.post_save(obj, created=False)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
