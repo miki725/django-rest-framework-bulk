@@ -32,8 +32,11 @@ class BulkCreateModelMixin(CreateModelMixin):
         else:
             serializer = self.get_serializer(data=request.data, many=True)
             serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
+            self.perform_bulk_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def perform_bulk_create(self, serializer):
+        return self.perform_create(serializer)
 
 
 class BulkUpdateModelMixin(object):
@@ -72,15 +75,18 @@ class BulkUpdateModelMixin(object):
             partial=partial,
         )
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+        self.perform_bulk_update(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def perform_update(self, serializer):
-        serializer.save()
 
     def partial_bulk_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         return self.bulk_update(request, *args, **kwargs)
+
+    def perform_update(self, serializer):
+        serializer.save()
+
+    def perform_bulk_update(self, serializer):
+        return self.perform_update(serializer)
 
 
 class BulkDestroyModelMixin(object):
@@ -104,10 +110,13 @@ class BulkDestroyModelMixin(object):
         if not self.allow_bulk_destroy(qs, filtered):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        for obj in filtered:
-            self.perform_destroy(obj)
+        self.perform_bulk_destroy(filtered)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def perform_destroy(self, instance):
         instance.delete()
+
+    def perform_bulk_destroy(self, objects):
+        for obj in objects:
+            self.perform_destroy(obj)
