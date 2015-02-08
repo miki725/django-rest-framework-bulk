@@ -3,7 +3,15 @@
 History
 -------
 
-0.1.4 (2014-02-01)
+0.2 (2015-02-08)
+~~~~~~~~~~~~~~~~
+
+* Added DRF3 support. Please note that DRF2 is still supported.
+  Now we support both DRF2 and DRF3!
+* Fixed an issue when using viewsets, single resource update was not working due
+  to ``get_object()`` overwrite in viewset.
+
+0.1.4 (2015-02-01)
 ~~~~~~~~~~~~~~~~~~
 
 * Added base model viewset.

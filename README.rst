@@ -24,6 +24,7 @@ Requirements
 * Python 2.7+
 * Django 1.3+
 * Django REST Framework >= 2.2.5 (when bulk features were added to serializers)
+* Django REST Framework >= 3.0.0 (DRF-bulk supports both DRF2 and DRF3!)
 
 Installing
 ----------
@@ -42,9 +43,21 @@ Example
 The bulk views (and mixins) are very similar to Django REST Framework's own
 generic views (and mixins)::
 
-    from rest_framework_bulk import ListBulkCreateUpdateDestroyAPIView
+    from rest_framework_bulk import (
+        BulkListSerializer,
+        BulkSerializerMixin,
+        ListBulkCreateUpdateDestroyAPIView,
+    )
+
+    class FooSerializer(BulkSerializerMixin, ModelSerializer):
+        class Meta(object):
+            model = FooModel
+            # only necessary in DRF3
+            list_serializer_class = BulkListSerializer
+
     class FooView(ListBulkCreateUpdateDestroyAPIView):
-        model = FooModel
+        queryset = FooModel.objects.all()
+        serializer_class = FooSerializer
 
 The above will allow to create the following queries
 
@@ -85,7 +98,7 @@ The above will allow to create the following queries
 Router
 ------
 
-The bulk router can map automatically the bulk actions::
+The bulk router can automatically map the bulk actions::
 
     from rest_framework_bulk.routes import BulkRouter
 
@@ -98,6 +111,29 @@ The bulk router can map automatically the bulk actions::
     router = BulkRouter()
     router.register(r'users', UserViewSet)
 
+DRF3
+----
+
+Django REST Framework made many API changes which included major changes
+in serializers. As a result, please note the following in order to use
+DRF-bulk with DRF3:
+
+* You must specify custom ``list_serializer_class`` if your view(set)
+  will require update functionality (when using ``BulkUpdateModelMixin``)
+* DRF3 removes read-only fields from ``serializer.validated_data``.
+  As a result, it is impossible to correlate each ``validated_data``
+  in ``ListSerializer`` with a model instance to update since ``validated_data``
+  will be missing the model primary key since that is a read-only field.
+  To deal with that, you must use ``BulkSerializerMixin`` mixin in your serializer
+  class which will add the model primary key field back to the ``validated_data``.
+  By default ``id`` field is used however you can customize that field
+  by using ``update_lookup_field`` in the serializers ``Meta``::
+
+    class FooSerializer(BulkSerializerMixin, ModelSerializer):
+        class Meta(object):
+            model = FooModel
+            list_serializer_class = BulkListSerializer
+            update_lookup_field = 'slug'
 Notes
 -----
 
