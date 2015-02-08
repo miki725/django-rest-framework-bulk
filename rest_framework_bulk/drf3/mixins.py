@@ -15,7 +15,7 @@ __all__ = [
 class BulkCreateModelMixin(CreateModelMixin):
     """
     Either create a single or many model instances in bulk by using the
-    Serializer's ``many=True`` ability from Django REST >= 2.2.5.
+    Serializers ``many=True`` ability from Django REST >= 2.2.5.
 
     .. note::
         This mixin uses the same method to create model instances
@@ -41,7 +41,7 @@ class BulkCreateModelMixin(CreateModelMixin):
 
 class BulkUpdateModelMixin(object):
     """
-    Update model instances in bulk by using the Serializer's
+    Update model instances in bulk by using the Serializers
     ``many=True`` ability from Django REST >= 2.2.5.
     """
 
@@ -54,7 +54,7 @@ class BulkUpdateModelMixin(object):
             # however since we are enabling PUT here, we should handle the
             # exception if called within options()
             # We can simply swallow the exception since that method
-            # does not actually do anythingwith the returned object
+            # does not actually do anything with the returned object
             for file, line, function, code in traceback.extract_stack():
                 if all((file.endswith('rest_framework/views.py'),
                         function == 'options')):

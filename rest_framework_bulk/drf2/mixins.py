@@ -16,7 +16,7 @@ __all__ = [
 class BulkCreateModelMixin(CreateModelMixin):
     """
     Either create a single or many model instances in bulk by using the
-    Serializer's ``many=True`` ability from Django REST >= 2.2.5.
+    Serializers ``many=True`` ability from Django REST >= 2.2.5.
 
     .. note::
         This mixin uses the same method to create model instances
@@ -45,7 +45,7 @@ class BulkCreateModelMixin(CreateModelMixin):
 
 class BulkUpdateModelMixin(object):
     """
-    Update model instances in bulk by using the Serializer's
+    Update model instances in bulk by using the Serializers
     ``many=True`` ability from Django REST >= 2.2.5.
     """
 
@@ -53,7 +53,7 @@ class BulkUpdateModelMixin(object):
         try:
             super(BulkUpdateModelMixin, self).get_object()
         except ImproperlyConfigured:
-            # probably happened when called get_object() within metdata()
+            # probably happened when called get_object() within metadata()
             # which is not allowed on list viewset however since we are enabling
             # PUT here, we should handle the exception
             # if called within metadata(), we can simply swallow exception
