@@ -49,16 +49,16 @@ class BulkListSerializer(ListSerializer):
         })
 
         if len(all_validated_data_by_id) != objects_to_update.count():
-            raise ValidationError('Could not find find all objects to update.')
+            raise ValidationError('Could not find all objects to update.')
 
         updated_objects = []
 
         for obj in objects_to_update:
-            obj_id = getattr(obj, id_attr, None)
+            obj_id = getattr(obj, id_attr)
             obj_validated_data = all_validated_data_by_id.get(obj_id)
-            if obj_id and obj_validated_data:
-                # use model serializer to actually update the model
-                # in case that method is overwritten
-                updated_objects.append(self.child.update(obj, obj_validated_data))
+
+            # use model serializer to actually update the model
+            # in case that method is overwritten
+            updated_objects.append(self.child.update(obj, obj_validated_data))
 
         return updated_objects
