@@ -51,7 +51,7 @@ class BulkUpdateModelMixin(object):
 
     def get_object(self):
         try:
-            super(BulkUpdateModelMixin, self).get_object()
+            return super(BulkUpdateModelMixin, self).get_object()
         except ImproperlyConfigured:
             # probably happened when called get_object() within metadata()
             # which is not allowed on list viewset however since we are enabling

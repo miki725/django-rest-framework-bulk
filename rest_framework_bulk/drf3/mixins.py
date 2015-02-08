@@ -47,7 +47,7 @@ class BulkUpdateModelMixin(object):
 
     def get_object(self):
         try:
-            super(BulkUpdateModelMixin, self).get_object()
+            return super(BulkUpdateModelMixin, self).get_object()
         except AssertionError:
             # probably happened when called get_object() within options()
             # via self.metadata_class which is not allowed on list viewset
