@@ -3,7 +3,7 @@
 History
 -------
 
-0.2 (2015-02-08)
+0.2 (2015-02-09)
 ~~~~~~~~~~~~~~~~
 
 * Added DRF3 support. Please note that DRF2 is still supported.

@@ -134,6 +134,7 @@ DRF-bulk with DRF3:
             model = FooModel
             list_serializer_class = BulkListSerializer
             update_lookup_field = 'slug'
+
 Notes
 -----
 
