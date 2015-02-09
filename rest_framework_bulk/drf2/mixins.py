@@ -49,24 +49,23 @@ class BulkUpdateModelMixin(object):
     ``many=True`` ability from Django REST >= 2.2.5.
     """
 
-    def get_object(self):
-        try:
-            return super(BulkUpdateModelMixin, self).get_object()
-        except ImproperlyConfigured:
-            # probably happened when called get_object() within metadata()
-            # which is not allowed on list viewset however since we are enabling
-            # PUT here, we should handle the exception
-            # if called within metadata(), we can simply swallow exception
-            # since that method does not actually do anything
-            # with the returned object
-            for file, line, function, code in traceback.extract_stack():
-                if all((file.endswith('rest_framework/generics.py'),
-                        function == 'metadata')):
-                    return
+    def get_object(self, queryset=None):
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
 
-            # not called inside metadata() so probably something went
-            # wrong and so we should reraise exception
-            raise
+        if any((lookup_url_kwarg in self.kwargs,
+                self.pk_url_kwarg in self.kwargs,
+                self.slug_url_kwarg in self.kwargs)):
+            return super(BulkUpdateModelMixin, self).get_object(queryset)
+
+        # If the lookup_url_kwarg (or other deprecated variations)
+        # are not present, get_object() is most likely called
+        # as part of metadata() which by default simply checks
+        # for object permissions and raises permission denied if necessary.
+        # Here we don't need to check for general permissions
+        # and can simply return None since general permissions
+        # are checked in initial() which always gets executed
+        # before any of the API actions (e.g. create, update, etc)
+        return
 
     def bulk_update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
