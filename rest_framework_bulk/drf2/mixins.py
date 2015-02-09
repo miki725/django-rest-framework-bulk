@@ -1,6 +1,5 @@
 from __future__ import unicode_literals, print_function
-import traceback
-from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.exceptions import ValidationError
 from rest_framework import status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
