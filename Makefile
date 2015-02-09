@@ -7,6 +7,7 @@ COVER_FLAGS=${COVER_CONFIG_FLAGS} ${COVER_REPORT_FLAGS}
 
 help:
 	@echo "install - install all requirements including for testing"
+	@echo "install-quite - same as install but pipes all output to /dev/null"
 	@echo "clean - remove all artifacts"
 	@echo "clean-build - remove build artifacts"
 	@echo "clean-pyc - remove Python file artifacts"
@@ -22,6 +23,9 @@ help:
 
 install:
 	pip install -r requirements-dev.txt
+
+install-quite:
+	pip install -r requirements-dev.txt > /dev/null
 
 clean: clean-build clean-pyc clean-test-all
 

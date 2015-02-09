@@ -7,6 +7,6 @@ import rest_framework
 # without doing any magic
 # a little more code but a lit clearer what is going on
 if str(rest_framework.__version__).startswith('2'):
-    from .drf2.mixins import *  # noqa
+    from .drf2.serializers import *  # noqa
 else:
-    from .drf3.mixins import *  # noqa
+    from .drf3.serializers import *  # noqa

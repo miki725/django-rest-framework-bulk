@@ -152,11 +152,21 @@ class TestBulkAPIViewSet(TestCase):
         super(TestBulkAPIViewSet, self).setUp()
         self.url = reverse('api:simple-list')
 
+    def test_get_single(self):
+        """
+        Test that we are still able to query single resource
+        """
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_get(self):
         """
         Test that GET returns 200
         """
-        response = self.client.get(self.url)
+        obj = SimpleModel.objects.create(contents='hello world', number=7)
+
+        response = self.client.get(reverse('api:simple-detail', args=[obj.pk]))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

@@ -1,2 +1,2 @@
 django
-djangorestframework<3
+djangorestframework
