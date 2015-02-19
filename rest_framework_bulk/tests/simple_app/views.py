@@ -1,8 +1,8 @@
 from __future__ import unicode_literals, print_function
 from rest_framework_bulk import generics
 
-from .models import SimpleModel
-from .serializers import SimpleSerializer
+from .models import SimpleModel, UniqueTogetherModel
+from .serializers import SimpleSerializer, UniqueTogetherSerializer
 
 
 class SimpleMixin(object):
@@ -23,3 +23,9 @@ class FilteredBulkAPIView(SimpleMixin, generics.ListBulkCreateUpdateDestroyAPIVi
 class SimpleViewSet(SimpleMixin, generics.BulkModelViewSet):
     def filter_queryset(self, queryset):
         return queryset.filter(number__gt=5)
+
+
+class UniqueTogetherViewSet(generics.BulkModelViewSet):
+    model = UniqueTogetherModel
+    queryset = UniqueTogetherModel.objects.all()
+    serializer_class = UniqueTogetherSerializer

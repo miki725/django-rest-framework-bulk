@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from rest_framework import status
 
-from .simple_app.models import SimpleModel
+from .simple_app.models import SimpleModel, UniqueTogetherModel
 from .simple_app.views import FilteredBulkAPIView, SimpleBulkAPIView
 
 
@@ -250,6 +250,25 @@ class TestBulkAPIViewSet(TestCase):
                     'contents': 'bar',
                     'id': obj2.pk,
                 },
+            ]),
+            content_type='application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_patch_unique_together(self):
+        """
+        Test that PATCH with multiple partial resources returns 200
+        even on model with unique together columns
+        """
+        obj1 = UniqueTogetherModel.objects.create(foo=1, bar=2)
+        obj2 = UniqueTogetherModel.objects.create(foo=3, bar=4)
+
+        response = self.client.patch(
+            reverse('api:unique-together-list'),
+            data=json.dumps([
+                {'foo': 5, 'id': obj1.pk},
+                {'foo': 6, 'id': obj2.pk},
             ]),
             content_type='application/json',
         )
