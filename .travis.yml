@@ -13,6 +13,7 @@ env:
 install:
   - pip install $DRF
   - pip install -r requirements-dev.txt
+  - pip freeze
 
 # command to run tests, e.g. python setup.py test
 script: make check
