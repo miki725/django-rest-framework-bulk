@@ -1,4 +1,6 @@
 from __future__ import print_function, unicode_literals
+import inspect
+
 from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ListSerializer
 
@@ -40,6 +42,10 @@ class BulkListSerializer(ListSerializer):
             i.pop(id_attr): i
             for i in all_validated_data
         }
+
+        if not all((bool(i) and not inspect.isclass(i)
+                    for i in all_validated_data_by_id.keys())):
+            raise ValidationError('')
 
         # since this method is given a queryset which can have many
         # model instances, first find all objects to update

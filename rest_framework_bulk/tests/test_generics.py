@@ -1,5 +1,6 @@
 from __future__ import unicode_literals, print_function
 import json
+
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import RequestFactory
@@ -82,6 +83,22 @@ class TestBulkAPIView(TestCase):
                 (obj2.pk, 'bar', 4),
             ]
         )
+
+    def test_put_without_update_key(self):
+        """
+        Test that PUT request updates all submitted resources.
+        """
+        response = self.view(self.request.put(
+            '',
+            json.dumps([
+                {'contents': 'foo', 'number': 3},
+                {'contents': 'rainbows', 'number': 4},  # multiple objects without id
+                {'contents': 'bar', 'number': 4, 'id': 555},  # non-existing id
+            ]),
+            content_type='application/json',
+        ))
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_patch(self):
         """

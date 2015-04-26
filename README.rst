@@ -21,10 +21,11 @@ within the framework. That is the purpose of this project.
 Requirements
 ------------
 
-* Python 2.7+
-* Django 1.3+
-* Django REST Framework >= 2.2.5 (when bulk features were added to serializers)
-* Django REST Framework >= 3.0.0 (DRF-bulk supports both DRF2 and DRF3!)
+* Python>=2.7
+* Django>=1.3
+* Django REST Framework >= 3.0.0
+* REST Framework >= 2.2.5
+  (**only with** Django<1.8 since DRF<3 does not support Django1.8)
 
 Installing
 ----------

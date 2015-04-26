@@ -3,6 +3,14 @@
 History
 -------
 
+0.2.1 (2015-04-26)
+~~~~~~~~~~~~~~~~~~
+
+* Fixed a bug which allowed to submit data for update to serializer
+  without update field.
+  See `#34 <https://github.com/miki725/django-rest-framework-bulk/issues/34>`_.
+* Removed support for Django1.8 with DRF2.x
+
 0.2 (2015-02-09)
 ~~~~~~~~~~~~~~~~
 
