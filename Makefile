@@ -1,9 +1,7 @@
 .PHONY: clean-pyc clean-build docs clean
 
-NOSE_FLAGS=-s --verbosity=2
-COVER_CONFIG_FLAGS=--with-coverage --cover-package=rest_framework_bulk --cover-erase
-COVER_REPORT_FLAGS=--cover-html --cover-html-dir=htmlcov
-COVER_FLAGS=${COVER_CONFIG_FLAGS} ${COVER_REPORT_FLAGS}
+TEST_FLAGS=--verbosity=2
+COVER_FLAGS=--source=rest_framework_bulk
 
 help:
 	@echo "install - install all requirements including for testing"
@@ -51,10 +49,14 @@ lint:
 	flake8 rest_framework_bulk
 
 test:
-	python tests/manage.py test ${NOSE_FLAGS}
+	python tests/manage.py test ${TEST_FLAGS}
 
-test-coverage:
-	python tests/manage.py test ${NOSE_FLAGS} ${COVER_FLAGS}
+test-coverage: clean-test
+	-coverage run ${COVER_FLAGS} tests/manage.py test ${TEST_FLAGS}
+	@exit_code=$?
+	@-coverage report
+	@-coverage html
+	@exit ${exit_code}
 
 test-all:
 	tox

@@ -12,14 +12,15 @@ DATABASES = {
 MIDDLEWARE_CLASSES = ()
 
 INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     'django.contrib.staticfiles',
-    'django_nose',
     'rest_framework',
     'rest_framework_bulk',
     'rest_framework_bulk.tests.simple_app',
 )
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_RUNNER = 'django_pytest.test_runner.TestRunner'
 
 STATIC_URL = '/static/'
 SECRET_KEY = 'foo'

@@ -1,5 +1,6 @@
 -r requirements.txt
 coverage
-django-nose
+django-pytest
 flake8
+pytest
 tox
