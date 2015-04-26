@@ -1,6 +1,4 @@
 -r requirements.txt
 coverage
-django-pytest
 flake8
-pytest
 tox

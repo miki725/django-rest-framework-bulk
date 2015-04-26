@@ -20,8 +20,6 @@ INSTALLED_APPS = (
     'rest_framework_bulk.tests.simple_app',
 )
 
-TEST_RUNNER = 'django_pytest.test_runner.TestRunner'
-
 STATIC_URL = '/static/'
 SECRET_KEY = 'foo'
 
