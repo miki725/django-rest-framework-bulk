@@ -1,6 +1,5 @@
 from __future__ import unicode_literals, print_function
 import json
-import unittest
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -85,7 +84,6 @@ class TestBulkAPIView(TestCase):
             ]
         )
 
-    @unittest.skip('')
     def test_put_without_update_key(self):
         """
         Test that PUT request updates all submitted resources.
@@ -94,6 +92,7 @@ class TestBulkAPIView(TestCase):
             '',
             json.dumps([
                 {'contents': 'foo', 'number': 3},
+                {'contents': 'rainbows', 'number': 4},  # multiple objects without id
                 {'contents': 'bar', 'number': 4, 'id': 555},  # non-existing id
             ]),
             content_type='application/json',
