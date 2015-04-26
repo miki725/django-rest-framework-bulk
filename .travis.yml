@@ -6,12 +6,12 @@ python:
   - "pypy"
 
 env:
-  - "DRF='djangorestframework<3'"
-  - "DRF='djangorestframework>=3'"
+  - "$DJANGO_DRF='django<1.8' 'djangorestframework<3'"
+  - "$DJANGO_DRF='djangorestframework>=3'"
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install $DRF
+  - pip install $DJANGO_DRF
   - pip install -r requirements-dev.txt
   - pip freeze
 
